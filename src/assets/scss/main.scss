@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.tabs {
+    margin: 50px auto 0 auto;
+}
+
+main {
+    padding-top: 60px;
+}
+.level {
+    align-items: flex-start;
+}
+
+.level-left,
+.level-right {
+    flex-direction: column;
+}
+
+.vk-api {
+    &-center {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    &-header {
+        margin: 0 auto;
+    }
+
+    &-search {
+        display: flex;
+        align-items: flex-end;
+        margin: 0 auto 30px auto;
+    }
+
+    &-search__input {
+        width: 250px;
+    }
+
+    &-search__button {
+        margin-left: 15px;
+    }
+
+    &-user {
+        width: 320px;
+        margin: 0 auto;
+    }
+
+    &-users {
+        display: flex;
+    }
+
+    &-friends {
+        margin-left: 50px;
+
+        &__list {
+            height: 500px;
+            overflow-y: scroll;
+        }
+    }
+
+    &-friend__list {
+        display: flex;
+
+        &-item {
+            margin: 0 15px 15px 0;
+        }
+    }
+
+    &-table {
+        width: 100%;
+    }
+}
