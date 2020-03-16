@@ -101,7 +101,9 @@ export default {
     },
     methods: {
         findUserById() {
-            this.$store.dispatch('findUserById')
+            if (this.id !== '') {
+                this.$store.dispatch('findUserById')
+            }
         },
         addUser() {
             this.$store.commit('addUser', this.user)

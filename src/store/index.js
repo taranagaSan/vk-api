@@ -22,7 +22,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         user: null,
-        userId: null,
+        userId: '',
         users: [],
         isLoading: false,
         friends: null,
