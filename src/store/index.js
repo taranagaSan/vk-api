@@ -1,5 +1,4 @@
 import { ToastProgrammatic as Toast } from 'buefy'
-import jsonp from 'jsonp'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { User } from '@/utils/classes'
@@ -7,10 +6,16 @@ import {
     checkUser,
     checkUserById,
     findUserIndex,
-    mapFriends,
     getFriendsList,
-    getUsersCount
+    getUsersCount,
+    sortByNames
 } from '@/utils/helpers'
+
+import {
+    getUserInfo,
+    getFriends,
+    getPosts
+} from '@/api/vkApi'
 
 Vue.use(Vuex)
 
@@ -24,9 +29,13 @@ export default new Vuex.Store({
         usersFriendsList: [],
         checkedFriend: null,
         friendPosts: null,
-        maxCount: 0
+        maxCount: 0,
+        service: 'SearchUsers'
     },
     mutations: {
+        setService({ state }, name) {
+            this.state.service = name
+        },
         setUserId({ state }, payload) {
             this.state.userId = payload
         },
@@ -50,6 +59,8 @@ export default new Vuex.Store({
                     type: 'is-success'
                 })
             }
+
+            this.state.users = sortByNames(this.state.users)
             this.state.user = null
             this.state.userId = ''
         },
@@ -61,7 +72,7 @@ export default new Vuex.Store({
             Toast.open({
                 message: 'Пользователь ВК удален',
                 duration: 2000,
-                type: 'is-success'
+                type: 'is-danger'
             })
 
             this.state.user = null
@@ -111,22 +122,8 @@ export default new Vuex.Store({
 
             const url = `${params.url}?user_id=${params.user_id}&fields=${params.fields}&access_token=${params.access_token}&v=5.52`
 
-            const getUserInfo = () => (
-                new Promise((resolve, reject) => {
-                    jsonp(url, null, (err, data) => {
-                        if (err) {
-                            reject(err)
-                        } else {
-                            const [user] = data.response
-
-                            resolve(user)
-                        }
-                    })
-                })
-            )
-
             try {
-                const user = await getUserInfo()
+                const user = await getUserInfo(url)
 
                 await dispatch('getUsersFriends', user.id)
 
@@ -138,7 +135,7 @@ export default new Vuex.Store({
                 console.log(err)
             }
         },
-        getUsersFriends({ commit }, id) {
+        async getUsersFriends({ commit }, id) {
             const params = {
                 url: 'https://api.vk.com/method/friends.search',
                 user_id: id,
@@ -149,22 +146,13 @@ export default new Vuex.Store({
 
             const url = `${params.url}?user_id=${params.user_id}&count=${params.count}&access_token=${params.access_token}&v=5.52`
 
-            return new Promise((resolve, reject) => {
-                jsonp(url, null, (err, data) => {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        const friends = mapFriends({
-                            ...data.response,
-                            id
-                        })
+            try {
+                const friends = await getFriends(url, id)
 
-                        commit('changeUserData', friends)
-
-                        resolve(friends)
-                    }
-                })
-            })
+                commit('changeUserData', friends)
+            } catch (err) {
+                console.log(err)
+            }
         },
         async getWallPosts({ commit }, id) {
             const params = {
@@ -176,20 +164,8 @@ export default new Vuex.Store({
 
             const url = `${params.url}?owner_id=${params.user_id}&count=${params.count}&access_token=${params.access_token}&v=5.52`
 
-            const getPosts = () => (
-                new Promise((resolve, reject) => {
-                    jsonp(url, null, (err, data) => {
-                        if (err) {
-                            reject(err)
-                        } else {
-                            resolve(data.response.items)
-                        }
-                    })
-                })
-            )
-
             try {
-                const posts = await getPosts()
+                const posts = await getPosts(url)
 
                 commit('setPost', posts)
             } catch (err) {

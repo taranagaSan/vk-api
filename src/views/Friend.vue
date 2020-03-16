@@ -1,5 +1,11 @@
 <template>
     <main class="container">
+        <b-button
+            type="is-link"
+            @click="goBack"
+        >
+            Назад
+        </b-button>
         <div class="level">
             <div
                 v-if="checkedFriend"
@@ -96,6 +102,13 @@ export default {
     },
     created() {
         this.$store.dispatch('getWallPosts', this.checkedFriend.id)
+    },
+    methods: {
+        goBack() {
+            this.$router.push({
+                name: 'Main'
+            })
+        }
     }
 }
 </script>

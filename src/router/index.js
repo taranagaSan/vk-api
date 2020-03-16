@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Main from '@/components/Main.vue'
-import Friend from '@/components/Friend.vue'
+import Main from '@/views/Main.vue'
+import Friend from '@/views/Friend.vue'
 
 Vue.use(VueRouter)
 

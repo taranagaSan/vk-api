@@ -1,5 +1,8 @@
 <template>
-    <div class="vk-api-users">
+    <div
+        v-if="users.length"
+        class="vk-api-users"
+    >
         <div>
             <table class="table is-stripe is-hoverable vk-api-table">
                 <thead>

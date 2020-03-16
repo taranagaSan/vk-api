@@ -23,6 +23,7 @@ main {
 .level-left,
 .level-right {
     flex-direction: column;
+    width: 50%;
 }
 
 .vk-api {
@@ -71,6 +72,7 @@ main {
 
     &-friend__list {
         display: flex;
+        flex-wrap: wrap;
 
         &-item {
             margin: 0 15px 15px 0;

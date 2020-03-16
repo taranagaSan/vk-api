@@ -28,8 +28,10 @@
 </template>
 
 <script>
-import SearchUsers from './SearchUsers.vue'
-import UsersTable from './UsersTable.vue'
+import {
+    SearchUsers,
+    UsersTable
+} from '@/components'
 
 export default {
     name: 'Main',
@@ -37,9 +39,16 @@ export default {
         SearchUsers,
         UsersTable
     },
-    data: () => ({
-        service: 'SearchUsers'
-    }),
+    computed: {
+        service: {
+            get() {
+                return this.$store.state.service
+            },
+            set(value) {
+                this.$store.commit('setService', value)
+            }
+        }
+    },
     methods: {
         changeService(name) {
             this.service = name

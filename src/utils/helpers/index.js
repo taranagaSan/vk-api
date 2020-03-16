@@ -4,6 +4,7 @@ import findUserIndex from './findUserIndex'
 import mapFriends from './mapFriends'
 import getFriendsList from './getFriendsList'
 import getUsersCount from './getUsersCount'
+import sortByNames from './sortByNames'
 
 export {
     checkUser,
@@ -11,5 +12,6 @@ export {
     findUserIndex,
     mapFriends,
     getFriendsList,
-    getUsersCount
+    getUsersCount,
+    sortByNames
 }
